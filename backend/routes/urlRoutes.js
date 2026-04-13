@@ -5,7 +5,7 @@ const {
   createShortUrl,
   redirectUrl,
   getStats
-} = require("../controllers/urlController");
+} = require("../controller/urlController");
 
 router.post("/shorten", createShortUrl);
 router.get("/stats/:code", getStats);

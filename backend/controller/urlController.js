@@ -1,5 +1,6 @@
-const Url = require("../models/Url");
+const Url = require("../db/Url");
 const generateCode = require("../utils/generateCode");
+const { client } = require("../db/redis");
 
 // URL validation
 const isValidUrl = (url) => {
@@ -24,9 +25,9 @@ const createShortUrl = async (req, res) => {
       return res.status(400).json({ error: "Invalid URL" });
     }
 
-    // If custom code provided
     let shortCode = customCode;
 
+    // Custom code logic
     if (customCode) {
       const exists = await Url.findOne({ shortCode: customCode });
       if (exists) {
@@ -41,6 +42,7 @@ const createShortUrl = async (req, res) => {
         });
       }
 
+      // Generate unique code
       let exists = true;
       while (exists) {
         shortCode = generateCode();
@@ -59,6 +61,11 @@ const createShortUrl = async (req, res) => {
       expiresAt
     });
 
+    // Cache it immediately (optional but good)
+    await client.set(`url:${shortCode}`, originalUrl, {
+      EX: 3600 // 1 hour
+    });
+
     res.json({
       shortUrl: `http://localhost:5000/${shortCode}`
     });
@@ -72,19 +79,40 @@ const createShortUrl = async (req, res) => {
 const redirectUrl = async (req, res) => {
   try {
     const { code } = req.params;
+    const key = `url:${code}`;
 
-    const url = await Url.findOne({ shortCode: code });
+    // 1. Check Redis
+    const cachedUrl = await client.get(key);
 
-    if (!url) {
-      return res.status(404).send("Not found");
+    if (cachedUrl) {
+      console.log("Cache HIT");
+
+      // Increment clicks async (non-blocking)
+      Url.findOneAndUpdate(
+        { shortCode: code },
+        { $inc: { clicks: 1 } }
+      ).exec();
+
+      return res.redirect(cachedUrl);
     }
 
-    // Expiry check
+    console.log("Cache MISS");
+
+    // 2. Fetch from DB
+    const url = await Url.findOne({ shortCode: code });
+
+    if (!url) return res.status(404).send("Not found");
+
     if (url.expiresAt && url.expiresAt < new Date()) {
       return res.status(410).send("Link expired");
     }
 
-    // Increment clicks
+    // 3. Store in Redis
+    await client.set(key, url.originalUrl, {
+      EX: 3600
+    });
+
+    // 4. Increment clicks
     url.clicks += 1;
     await url.save();
 

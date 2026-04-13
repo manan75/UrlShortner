@@ -2,11 +2,16 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./db/config");
 const urlRoutes = require("./routes/urlRoutes");
+const {connectRedis} = require("./db/redis")
 
 const app = express();
 
 // Connect DB
 connectDB();
+
+// Connect Redis
+connectRedis();
+
 
 // Middleware
 app.use(cors());
