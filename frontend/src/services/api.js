@@ -5,3 +5,4 @@ const API = axios.create({
 });
 
 export const shortenUrl = (data) => API.post("/shorten", data);
+export const getStats = (code) => API.get(`/stats/${code}`);

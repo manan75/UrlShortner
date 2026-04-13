@@ -10,6 +10,13 @@ const urlSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  clicks: {
+    type: Number,
+    default: 0
+  },
+  expiresAt: {
+    type: Date
+  },
   createdAt: {
     type: Date,
     default: Date.now

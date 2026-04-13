@@ -3,10 +3,12 @@ const router = express.Router();
 
 const {
   createShortUrl,
-  redirectUrl
-} = require("../controller/urlController");
+  redirectUrl,
+  getStats
+} = require("../controllers/urlController");
 
 router.post("/shorten", createShortUrl);
+router.get("/stats/:code", getStats);
 router.get("/:code", redirectUrl);
 
 module.exports = router;
