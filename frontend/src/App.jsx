@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import Result from "./components/Result";
-import UrlForm from "./components/urlForm";
+import UrlForm from "./components/UrlForm";
 
 function App() {
   const [shortUrl, setShortUrl] = useState("");

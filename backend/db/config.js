@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-
+require("dotenv").config();
 const connectDB = async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/urlshortener");
+    await mongoose.connect(process.env.MONGO_URI );
     console.log("MongoDB connected");
   } catch (error) {
     console.error("DB connection error:", error);
@@ -10,4 +10,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = connectDB;
+module.exports = connectDB;``

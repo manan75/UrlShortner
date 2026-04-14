@@ -3,6 +3,7 @@ const cors = require("cors");
 const connectDB = require("./db/config");
 const urlRoutes = require("./routes/urlRoutes");
 const {connectRedis} = require("./db/redis")
+require("dotenv").config();
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(express.json());
 app.use("/", urlRoutes);
 
 // Server
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

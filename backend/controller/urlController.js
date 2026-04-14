@@ -1,6 +1,7 @@
 const Url = require("../db/Url");
 const generateCode = require("../utils/generateCode");
 const { client } = require("../db/redis");
+require("dotenv").config();
 
 // URL validation
 const isValidUrl = (url) => {
@@ -38,7 +39,7 @@ const createShortUrl = async (req, res) => {
       const existing = await Url.findOne({ originalUrl });
       if (existing) {
         return res.json({
-          shortUrl: `http://localhost:5000/${existing.shortCode}`
+          shortUrl: `${process.env.BASE_URL}/${existing.shortCode}`
         });
       }
 
