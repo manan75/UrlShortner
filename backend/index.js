@@ -21,6 +21,11 @@ app.use(express.json());
 // Routes
 app.use("/", urlRoutes);
 
+//Health check
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "OK" });
+});
+
 // Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
