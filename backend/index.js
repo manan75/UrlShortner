@@ -18,11 +18,28 @@ connectRedis();
 app.use(cors());
 app.use(express.json());
 
-//Health check
-app.get("/health", (req, res) => {
-  res.status(200).json({ status: "OK" });
-});
+//Health check endpoint
+app.get('/health', async (req, res) => {
+  const status = {
+    server: "OK",
+    mongodb: "DOWN",
+    redis: "DOWN"
+  };
 
+  try {
+    await mongoose.connection.db.admin().ping();
+    status.mongodb = "OK";
+  } catch (e) {}
+
+  try {
+    await redisClient.ping();
+    status.redis = "OK";
+  } catch (e) {}
+
+  const isHealthy = status.mongodb === "OK" && status.redis === "OK";
+
+  res.status(isHealthy ? 200 : 500).json(status);
+});
 
 // Routes
 app.use("/", urlRoutes);
