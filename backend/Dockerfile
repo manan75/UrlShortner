@@ -1,5 +1,5 @@
 #Development
-FROM node:22 
+FROM node:22-alpine
 
 #Work directory
 WORKDIR /app

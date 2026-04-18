@@ -1,7 +1,6 @@
 # 🚀 URL Shortener (Full Stack + Dockerized)
 
 A scalable and production-ready URL shortener built using modern web technologies. This project demonstrates backend architecture, caching, containerization, and full-stack integration.
-
 ---
 
 ## 📌 Features
@@ -11,8 +10,6 @@ A scalable and production-ready URL shortener built using modern web technologie
 - 🗄️ Persistent storage with MongoDB
 - 📊 Unique short code generation
 - 🐳 Fully containerized using Docker & Docker Compose
-- 🌐 Nginx-powered frontend serving
-- 🔄 REST API for backend operations
 
 ---
 
@@ -57,16 +54,7 @@ User → Frontend (React + Nginx)
 
 ---
 
-## 📸 Screenshots
 
-> Add your screenshots here
-
-```md
-![Home Page](./screenshots/home.png)
-![Shortened URL](./screenshots/result.png)
-```
-
----
 
 ## ⚙️ Setup Instructions
 
@@ -85,10 +73,10 @@ docker compose up --build
 
 ---
 
-### 🌐 Access the App
+### 🌐 Access the docker images
 
-- Frontend: http://localhost:3000  
-- Backend API: http://localhost:5000  
+- Backend API: https://hub.docker.com/repository/docker/manankapkar/urlshortner-backend
+- Frontend: https://hub.docker.com/repository/docker/manankapkar/urlshortner-frontend
 
 ---
 
@@ -115,30 +103,6 @@ REDIS_PORT=6379
 BASE_URL=http://localhost:5000
 ```
 
----
-
-## 🧪 API Endpoints
-
-### 🔗 Create Short URL
-```http
-POST /shorten
-```
-
-**Body:**
-```json
-{
-  "url": "https://example.com"
-}
-```
-
----
-
-### 🔁 Redirect
-```http
-GET /:shortCode
-```
-
----
 
 ## 💾 Data Persistence
 
@@ -153,24 +117,12 @@ GET /:shortCode
 - Improved response time for repeated URL access  
 
 ---
-
-## 📈 Future Improvements
-
-- 🔐 User authentication (JWT)  
-- 📊 Analytics dashboard (click tracking)  
-- 🌍 Custom aliases for URLs  
-- ⏳ Expiry time for links  
-- ☁️ Deploy on AWS / GCP  
-
----
-
 ## 🧠 What I Learned
 
 - Designing scalable backend systems  
 - Using Redis for performance optimization  
 - Dockerizing multi-service applications  
 - Managing persistent volumes  
-- Building full-stack apps with clean architecture  
 
 ---
 
@@ -180,15 +132,4 @@ Feel free to fork this repo and improve it!
 
 ---
 
-## 📬 Contact
 
-- GitHub: your-profile-link  
-- LinkedIn: your-link  
-
----
-
-## 🔥 Highlights
-
-- Reduced database load using Redis caching  
-- Containerized multi-service architecture  
-- Built a scalable URL redirection system  
