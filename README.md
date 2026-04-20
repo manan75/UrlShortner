@@ -13,6 +13,8 @@ A scalable and production-ready URL shortener built using modern web technologie
 
 ---
 
+![alt text](mermaid-diagram.png)
+
 ## 🛠️ Tech Stack
 
 ### Frontend
